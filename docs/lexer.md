@@ -30,4 +30,4 @@ To complete implementation see `src/lexer.cpp` and `include/lexer.hpp`
 
 `tokenize_number` function generate an integer token for now; later, we can parse floats too.
 
-`tokenize_word` function is similar to `tokenize_number`, but it's used for [words](gramar.md).
+`tokenize_word` function is similar to `tokenize_number`, but it's used for [words](grammar.md).
