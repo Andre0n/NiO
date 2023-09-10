@@ -13,7 +13,6 @@ class Lexer {
     std::size_t cursor{0};
     std::size_t line{0};
     std::size_t column{0};
-    std::string literal{};
     char current{};
 
     std::vector<std::unique_ptr<Token>> tokens;

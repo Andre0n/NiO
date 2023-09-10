@@ -26,29 +26,23 @@ auto Lexer::match_ahead(char expected) -> bool {
 auto Lexer::tokenize_number() -> void {
     auto start{column};
     while (std::isdigit(current)) {
-        literal += current;
         advance();
     }
-    auto token = std::make_unique<Token>(TokenType::_int, literal, line, start);
+    auto token = std::make_unique<Token>(
+        TokenType::_int, source.substr(start, cursor), line, start);
     tokens.emplace_back(std::move(token));
-    literal.clear();
 }
 
 auto Lexer::tokenize_word() -> void {
     auto start{column};
-
-    literal += current;
     advance();
-
     while (std::isalnum(current) || current == '_') {
-        literal += current;
         advance();
     }
 
-    auto token =
-        std::make_unique<Token>(TokenType::_word, literal, line, start);
+    auto token = std::make_unique<Token>(
+        TokenType::_word, source.substr(start, cursor), line, start);
     tokens.emplace_back(std::move(token));
-    literal.clear();
 }
 
 auto Lexer::tokenize() -> std::vector<std::unique_ptr<Token>> {
@@ -65,29 +59,29 @@ auto Lexer::tokenize() -> std::vector<std::unique_ptr<Token>> {
             switch (current) {
             case '(': {
                 token = std::make_unique<Token>(TokenType::open_paren,
-                                                std::string(1, current), line,
+                                                source.substr(cursor, 1), line,
                                                 column);
                 break;
             }
             case ')': {
                 token = std::make_unique<Token>(TokenType::close_paren,
-                                                std::string(1, current), line,
+                                                source.substr(cursor, 1), line,
                                                 column);
                 break;
             }
             case ';': {
                 token = std::make_unique<Token>(
-                    TokenType::semi, std::string(1, current), line, column);
+                    TokenType::semi, source.substr(cursor, 1), line, column);
                 break;
             }
             case '+': {
                 token = std::make_unique<Token>(
-                    TokenType::plus, std::string(1, current), line, column);
+                    TokenType::plus, source.substr(cursor, 1), line, column);
                 break;
             }
             default: {
                 token = std::make_unique<Token>(
-                    TokenType::_error, std::string(1, current), line, column);
+                    TokenType::_error, source.substr(cursor, 1), line, column);
                 break;
             }
             }
